@@ -19,7 +19,7 @@ services:
       JACKETT_API_KEY: "ft950g440swlqnrk8vpu35s533ok1fo8"
       JACKETT_MAX_RESULTS: "100" # max results from jackett search
       JACKETT_TIMEOUT: "60" # max time spent searching per indexer.
-      JACKETT_INDEXERS: "btsow,cinemageddon,fearnopeer,hdarea,hdatmos,hdfans,hdsky,milkie,monikadesign-api,ncore,onlyencodes-api,thesceneplace,torlock,torrentproject2,torrentseeds-api,xspeeds"
+      JACKETT_INDEXERS: "btsow,fearnopeer,hdsky,milkie,ncore,onlyencodes-api,privatehd,scenehd,skipthecommercials-api,thesceneplace,torlock,torrentproject2,xspeeds"
       LISTEN_PORT: "8000"
 
   jackett:
