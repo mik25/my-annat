@@ -34,7 +34,7 @@ JACKETT_CACHE_MINUTES = timedelta(minutes=int(os.environ.get("JACKETT_CACHE_MINU
 
 JACKETT_INDEXERS_LIST: list[str] = os.environ.get(
     "JACKETT_INDEXERS",
-    "btsow,hdarea,hdatmos,hdfans,monikadesign-api,passthepopcorn,thesceneplace,torlock,xspeeds",
+    "btsow,cinemageddon,fearnopeer,hdarea,hdatmos,hdfans,hdsky,milkie,monikadesign-api,ncore,onlyencodes-api,thesceneplace,torlock,torrentproject2,torrentseeds-api,xspeeds",
 ).split(",")
 
 REQUEST_DURATION = Histogram(
