@@ -4,7 +4,7 @@ on:
 
   push:
     branches:
-      - main
+      - auto-annabelle
       
   schedule:
   - cron: "1 * * * *" # See https://crontab.guru/#0_4,12,15,18,19_*_*_*
