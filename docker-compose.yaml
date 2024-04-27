@@ -19,7 +19,7 @@ services:
       JACKETT_API_KEY: "fop98wug5tn8vbek4mgiiyzukbw2kwpu"
       JACKETT_MAX_RESULTS: "10" # max results from jackett search
       JACKETT_TIMEOUT: "5" # max time spent searching per indexer.
-      JACKETT_INDEXERS: "anna,alpharatio,milkie,privatehd,torrentleech"
+      JACKETT_INDEXERS: "alpharatio,milkie,privatehd,torrentleech"
       LISTEN_PORT: "8000"
 
   jackett:
