@@ -24,8 +24,8 @@ from annatar.torrent import Category
 log = structlog.get_logger(__name__)
 
 
-JACKETT_URL: str = os.environ.get("JACKETT_URL", "http://108.218.31.111:9117")
-JACKETT_API_KEY: str = os.environ.get("JACKETT_API_KEY", "fop98wug5tn8vbek4mgiiyzukbw2kwpu")
+JACKETT_URL: str = os.environ.get("JACKETT_URL", "http://localhost:9117")
+JACKETT_API_KEY: str = os.environ.get("JACKETT_API_KEY", "")
 
 JACKETT_MAX_RESULTS = int(os.environ.get("JACKETT_MAX_RESULTS", 100))
 JACKETT_TIMEOUT = int(os.environ.get("JACKETT_TIMEOUT", 6))
@@ -35,7 +35,7 @@ JACKETT_CACHE_MINUTES = timedelta(minutes=int(os.environ.get("JACKETT_CACHE_MINU
 
 JACKETT_INDEXERS_LIST: list[str] = os.environ.get(
     "JACKETT_INDEXERS",
-    "anna,alpharatio,milkie,privatehd,torrentleech",
+    "yts,eztv,kickasstorrents-ws,thepiratebay,therarbg,torrentgalaxy,bitsearch,limetorrents,badasstorrents",
 ).split(",")
 
 
@@ -112,15 +112,17 @@ async def search_indexer(
 async def search_indexers(
     search_query: SearchQuery,
     indexers: list[str],
+    resolutions: list[str],
 ) -> list[str]:
     log.info("searching indexers", indexers=indexers)
 
-    cache_key: str = odm.Keys.torrents(
+    results = await odm.list_torrents(
         imdb=search_query.imdb_id,
         season=search_query.season,
         episode=search_query.episode,
+        resolutions=resolutions,
     )
-    results = await odm.list_torrents(
+    cache_key: str = odm.Keys.torrents(
         imdb=search_query.imdb_id,
         season=search_query.season,
         episode=search_query.episode,
@@ -141,11 +143,15 @@ async def search_indexers(
     if len(results) > 0:
         log.debug("torrents are stale, refreshing", imdb=search_query.imdb_id)
         return results
-    else:
-        log.debug("no results in cache, searching indexers", imdb=search_query.imdb_id)
+
+    log.debug("no results in cache, searching indexers", imdb=search_query.imdb_id)
 
     # offload to the background
     asyncio.create_task(offload_searches(search_query=search_query, indexers=indexers))
+    if search_query.episode:
+        without_episode = search_query.copy()
+        without_episode.episode = None
+        asyncio.create_task(offload_searches(search_query=without_episode, indexers=indexers))
 
     try:
         new_torrents = await asyncio.wait_for(
@@ -166,6 +172,7 @@ async def search_indexers(
         imdb=search_query.imdb_id,
         season=search_query.season,
         episode=search_query.episode,
+        resolutions=resolutions,
     )
     results.extend(new_torrents)
     return list(set(results))
@@ -207,10 +214,9 @@ async def offload_searches(
 
 
 class JackettSearchError(Exception):
-    def __init__(self, message: str, status: int | None, cause: Exception | None):
+    def __init__(self, message: str, status: int | None):
         self.message = message
         self.status = status
-        self.cause = cause
 
 
 async def execute_search(
@@ -260,15 +266,13 @@ async def execute_search(
                     raise JackettSearchError(
                         message="jackett search timeout",
                         status=response_status,
-                        cause=e,
-                    )
+                    ) from e
                 except Exception as err:
                     log.error("jacket search error", exc_info=err)
                     raise JackettSearchError(
                         message="jackett search error",
                         status=response_status,
-                        cause=err,
-                    )
+                    ) from err
 
         res: SearchResults = SearchResults(
             Results=[SearchResult(**result) for result in response_json["Results"]]
