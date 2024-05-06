@@ -23,8 +23,8 @@ from annatar.torrent import Category
 
 log = structlog.get_logger(__name__)
 
-JACKETT_URL: str = os.environ.get("JACKETT_URL", "https://mik25-jackett.elfhosted.com")
-JACKETT_API_KEY: str = os.environ.get("JACKETT_API_KEY", "5xh2exon8sa9upaadr8s69jxywtko9s8")
+JACKETT_URL: str = os.environ.get("JACKETT_URL", "http://27.10.130.174:9117")
+JACKETT_API_KEY: str = os.environ.get("JACKETT_API_KEY", "88hpmre8pe834rg6c0j48neitzrm6l6b")
 
 JACKETT_MAX_RESULTS = int(os.environ.get("JACKETT_MAX_RESULTS", 100))
 JACKETT_TIMEOUT = int(os.environ.get("JACKETT_TIMEOUT", 6))
@@ -34,7 +34,7 @@ JACKETT_CACHE_MINUTES = timedelta(minutes=int(os.environ.get("JACKETT_CACHE_MINU
 
 JACKETT_INDEXERS_LIST: list[str] = os.environ.get(
     "JACKETT_INDEXERS",
-    "cinemageddon,fearnopeer,hdforever,knaben,laidbackmanor,milkie,ncore,onlyencodes-api,privatehd,scenehd,skipthecommercials-api,skipthetrailers,solidtorrents,torlock,torrentdownloads,totheglorycookie",
+    "hdhome,hdsky,pterclub,pttime",
 ).split(",")
 
 REQUEST_DURATION = Histogram(
