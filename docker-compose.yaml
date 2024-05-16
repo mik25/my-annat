@@ -15,11 +15,11 @@ services:
       - "redis_data:/app/data"
     environment:
       LOG_LEVEL: debug
-      JACKETT_URL: "http://167.86.78.215:9117"
-      JACKETT_API_KEY: "a6q3edvwsd4pl9155lyu0lrwmngq4awu"
+      JACKETT_URL: "http://1.14.73.37:9117"
+      JACKETT_API_KEY: "ft950g440swlqnrk8vpu35s533ok1fo8"
       JACKETT_MAX_RESULTS: "100" # max results from jackett search
       JACKETT_TIMEOUT: "60" # max time spent searching per indexer.
-      JACKETT_INDEXERS: "1337x,bestcore,carphunter,filelist,itorrent,speedapp,thepiratebay,therarbg"
+      JACKETT_INDEXERS: "btsow,filelist,hdsky,milkie,ncore,privatehd,scenehd,teamhd,thesceneplace,torrentproject2,xspeeds"
       LISTEN_PORT: "8000"
 
   jackett:
