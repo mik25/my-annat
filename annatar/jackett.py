@@ -23,8 +23,8 @@ from annatar.torrent import Category
 
 log = structlog.get_logger(__name__)
 
-JACKETT_URL: str = os.environ.get("JACKETT_URL", "http://27.10.130.174:9117")
-JACKETT_API_KEY: str = os.environ.get("JACKETT_API_KEY", "88hpmre8pe834rg6c0j48neitzrm6l6b")
+JACKETT_URL: str = os.environ.get("JACKETT_URL", "http://82.172.152.9:9117")
+JACKETT_API_KEY: str = os.environ.get("JACKETT_API_KEY", "kptut9ad0fqgllyeykn27dhr9p6cd3hq")
 
 JACKETT_MAX_RESULTS = int(os.environ.get("JACKETT_MAX_RESULTS", 100))
 JACKETT_TIMEOUT = int(os.environ.get("JACKETT_TIMEOUT", 6))
@@ -34,7 +34,7 @@ JACKETT_CACHE_MINUTES = timedelta(minutes=int(os.environ.get("JACKETT_CACHE_MINU
 
 JACKETT_INDEXERS_LIST: list[str] = os.environ.get(
     "JACKETT_INDEXERS",
-    "hdhome,hdsky,pterclub,pttime",
+    "audiences,hdsky,isohunt2,keepfriends,kickasstorrents-to,kickasstorrents-ws,limetorrents,milkie,pterclub,rutracker,rutracker-ru,scenehd,springsunday,thepiratebay,torrentleech,totheglory2fa,yourbittorrent",
 ).split(",")
 
 REQUEST_DURATION = Histogram(
